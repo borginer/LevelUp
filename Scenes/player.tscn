@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://c224va5gqg06x"]
+
+[ext_resource type="Script" uid="uid://1wkcfple3xm3" path="res://Scripts/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://bnrlo2xn68pvj" path="res://Assets/monsters.png" id="2_6t5aa"]
+[ext_resource type="Script" uid="uid://c1cekrdh887gd" path="res://Scripts/progress_bar.gd" id="3_6t5aa"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cvnsp"]
+particles_animation = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sweqy"]
+atlas = ExtResource("2_6t5aa")
+region = Rect2(64, 128, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2hs0m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sweqy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vgqql"]
+bg_color = Color(0.0182568, 0.00949914, 0.0913921, 0.901961)
+border_color = Color(0, 0, 0, 1)
+corner_detail = 14
+shadow_color = Color(0.779227, 0.960515, 0.666901, 0.780392)
+shadow_size = 1
+shadow_offset = Vector2(0.2, 0.2)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_fkybt"]
+color = Color(0.449646, 0.607025, 0.134398, 0.996078)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 5
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hqtel"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_cvnsp")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.996078, 0.92549, 0.894118, 1)
+material = SubResource("CanvasItemMaterial_cvnsp")
+sprite_frames = SubResource("SpriteFrames_2hs0m")
+
+[node name="shoot_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="shoot_origin" type="Marker2D" parent="."]
+position = Vector2(11, -10)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -18.0
+offset_top = -21.0
+offset_right = 22.0
+offset_bottom = -16.0
+scale = Vector2(0.99775, 0.9137)
+theme_override_styles/background = SubResource("StyleBoxFlat_vgqql")
+theme_override_styles/fill = SubResource("StyleBoxLine_fkybt")
+value = 20.0
+show_percentage = false
+script = ExtResource("3_6t5aa")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_hqtel")
+
+[node name="damage_taken_cd" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[connection signal="timeout" from="shoot_timer" to="." method="_on_shoot_timer_timeout"]
+[connection signal="timeout" from="damage_taken_cd" to="." method="_on_damage_taken_cd_timeout"]

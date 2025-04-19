@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://bqipalvciy3jm"]
+
+[ext_resource type="Script" uid="uid://ccjbmcgq6xrjh" path="res://Scripts/game_manager.gd" id="1_y4dr7"]
+[ext_resource type="Texture2D" uid="uid://dcs4nh4ij2bvc" path="res://Assets/background.png" id="2_didp7"]
+[ext_resource type="PackedScene" uid="uid://cce5x77lw1sev" path="res://Scenes/spawner.tscn" id="3_2a60c"]
+[ext_resource type="PackedScene" uid="uid://c224va5gqg06x" path="res://Scenes/player.tscn" id="4_4iphx"]
+[ext_resource type="Script" uid="uid://dabi34k8cgywj" path="res://Scripts/exp_bar.gd" id="5_jgkgd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wrm1d"]
+bg_color = Color(0, 0, 0, 0.541176)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3dryh"]
+bg_color = Color(0.410182, 0.253711, 0.725643, 0.878431)
+
+[node name="Game" type="Node2D"]
+
+[node name="GameManager" type="Node2D" parent="."]
+process_mode = 3
+script = ExtResource("1_y4dr7")
+
+[node name="background" type="Sprite2D" parent="."]
+position = Vector2(107, 191)
+texture = ExtResource("2_didp7")
+
+[node name="Spawner" parent="." instance=ExtResource("3_2a60c")]
+position = Vector2(418, 305)
+
+[node name="Player" parent="." instance=ExtResource("4_4iphx")]
+position = Vector2(128, 128)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(2.685, 2.685)
+
+[node name="exp_bar" type="ProgressBar" parent="Player/Camera2D"]
+offset_left = -358.0
+offset_top = -202.0
+offset_right = 358.0
+offset_bottom = -192.0
+theme_override_styles/background = SubResource("StyleBoxFlat_wrm1d")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3dryh")
+value = 20.0
+show_percentage = false
+script = ExtResource("5_jgkgd")
+
+[node name="exp_text" type="Label" parent="Player/Camera2D/exp_bar"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 7.0
+offset_right = 44.0
+offset_bottom = 30.0
+text = "23"

@@ -1,0 +1,98 @@
+[gd_scene load_steps=13 format=3 uid="uid://b12ap38vskben"]
+
+[ext_resource type="Script" uid="uid://bou43gr7dob66" path="res://Scripts/bullet.gd" id="1_oduel"]
+[ext_resource type="Texture2D" uid="uid://cmuwnhf4iip" path="res://Assets/Bullet 24x24 Free Part 2B.png" id="2_ycag2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4vbm"]
+atlas = ExtResource("2_ycag2")
+region = Rect2(384, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2b2rl"]
+atlas = ExtResource("2_ycag2")
+region = Rect2(408, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7duk"]
+atlas = ExtResource("2_ycag2")
+region = Rect2(432, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2bd8"]
+atlas = ExtResource("2_ycag2")
+region = Rect2(456, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0pa3"]
+atlas = ExtResource("2_ycag2")
+region = Rect2(480, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ol1o"]
+atlas = ExtResource("2_ycag2")
+region = Rect2(504, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gofb6"]
+atlas = ExtResource("2_ycag2")
+region = Rect2(528, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bibm"]
+atlas = ExtResource("2_ycag2")
+region = Rect2(552, 24, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_as0xd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4vbm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2b2rl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7duk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2bd8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h0pa3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ol1o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gofb6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bibm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v8qja"]
+radius = 12.4224
+
+[node name="Bullet" type="Node2D"]
+script = ExtResource("1_oduel")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_as0xd")
+frame_progress = 0.724043
+
+[node name="bullet_timeout" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(0.805, 0.805)
+shape = SubResource("CircleShape2D_v8qja")
+
+[node name="reverse_timer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[connection signal="timeout" from="bullet_timeout" to="." method="_on_bullet_timeout_timeout"]
+[connection signal="timeout" from="reverse_timer" to="." method="_on_reverse_timer_timeout"]
