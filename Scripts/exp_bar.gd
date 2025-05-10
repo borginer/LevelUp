@@ -1,7 +1,7 @@
 extends ProgressBar
 
 @onready var player: Node2D = $"../.."
-@onready var exp_text: Label = $exp_text
+@onready var exp_text: Label = $"../exp_text"
 
 func _ready() -> void:
 	value = 0

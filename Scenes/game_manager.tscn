@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cemvlop733roq"]
+
+[ext_resource type="Script" uid="uid://x70xkctrulxa" path="res://Scripts/game_manager.gd" id="1_e5fcp"]
+
+[node name="GameManager" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_e5fcp")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+zoom = Vector2(2.685, 2.685)

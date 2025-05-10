@@ -61,21 +61,15 @@ thickness = 5
 radius = 11.5556
 height = 24.8889
 
-[node name="Mob" type="Node2D"]
+[node name="Mob" type="Node2D" groups=["enemies"]]
 script = ExtResource("1_u8nqw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ubaqv")
 animation = &"dragon"
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -19.0
-offset_top = -22.0
-offset_right = 23.0
-offset_bottom = -15.0
-color = Color(0.537011, 0.537011, 0.537011, 1)
-
 [node name="ProgressBar" type="ProgressBar" parent="."]
+z_index = 4
 offset_left = -18.0
 offset_top = -21.0
 offset_right = 22.0
@@ -86,6 +80,16 @@ theme_override_styles/fill = SubResource("StyleBoxLine_b44se")
 value = 20.0
 show_percentage = false
 script = ExtResource("3_b44se")
+
+[node name="ColorRect" type="ColorRect" parent="ProgressBar"]
+z_index = 3
+z_as_relative = false
+layout_mode = 0
+offset_left = -1.00225
+offset_top = -1.09445
+offset_right = 40.9977
+offset_bottom = 5.90555
+color = Color(0.537011, 0.537011, 0.537011, 1)
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4
@@ -99,5 +103,20 @@ shape = SubResource("CapsuleShape2D_p11y5")
 [node name="damage_position" type="Marker2D" parent="."]
 position = Vector2(2, -11)
 
+[node name="death_timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="PersonalSpace" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalSpace"]
+position = Vector2(2, 4)
+scale = Vector2(1.645, 1.645)
+shape = SubResource("CapsuleShape2D_p11y5")
+
 [connection signal="mob_death" from="." to="ProgressBar" method="_on_mob_mob_death"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]
+[connection signal="area_entered" from="PersonalSpace" to="." method="_on_area_2d_area_entered"]

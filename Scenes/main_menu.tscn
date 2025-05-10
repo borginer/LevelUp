@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctwh6u46c6bg0"]
+
+[ext_resource type="Script" uid="uid://lom2u8715c1v" path="res://Scripts/menu.gd" id="1_28flt"]
+[ext_resource type="Texture2D" uid="uid://cpkq5qa7qp07g" path="res://Assets/menu_background.png" id="2_48xlc"]
+
+[node name="Menu" type="Control"]
+process_mode = 3
+z_index = 20
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -844.8
+offset_bottom = -426.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_28flt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+scale = Vector2(3.67433, 1.60805)
+texture = ExtResource("2_48xlc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 600.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 55
+
+[node name="Continue" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Continue"
+
+[node name="NewGame" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "New Game"
+
+[node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Quit"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

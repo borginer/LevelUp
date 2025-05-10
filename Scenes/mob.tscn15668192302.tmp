@@ -1,0 +1,109 @@
+[gd_scene load_steps=11 format=3 uid="uid://cbc5weh57rmxd"]
+
+[ext_resource type="Texture2D" uid="uid://bnrlo2xn68pvj" path="res://Assets/monsters.png" id="1_dy6sc"]
+[ext_resource type="Script" uid="uid://4ofgwf82jx" path="res://Scripts/mob.gd" id="1_u8nqw"]
+[ext_resource type="Script" uid="uid://c1cekrdh887gd" path="res://Scripts/progress_bar.gd" id="3_b44se"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dy6sc"]
+atlas = ExtResource("1_dy6sc")
+region = Rect2(128, 256, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nokgg"]
+atlas = ExtResource("1_dy6sc")
+region = Rect2(160, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubaqv"]
+atlas = ExtResource("1_dy6sc")
+region = Rect2(224, 224, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ubaqv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dy6sc")
+}],
+"loop": true,
+"name": &"dragon",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nokgg")
+}],
+"loop": true,
+"name": &"moose",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubaqv")
+}],
+"loop": true,
+"name": &"tauron",
+"speed": 5.0
+}]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b44se"]
+bg_color = Color(0.360784, 0, 0, 0.901961)
+border_color = Color(0, 0, 0, 1)
+corner_detail = 14
+shadow_color = Color(0.779227, 0.960515, 0.666901, 0.780392)
+shadow_size = 1
+shadow_offset = Vector2(0.2, 0.2)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_b44se"]
+color = Color(0.449646, 0.607025, 0.134398, 0.996078)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 5
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p11y5"]
+radius = 11.5556
+height = 24.8889
+
+[node name="Mob" type="Node2D"]
+script = ExtResource("1_u8nqw")
+speed = null
+health = null
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ubaqv")
+animation = &"dragon"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -19.0
+offset_top = -22.0
+offset_right = 23.0
+offset_bottom = -15.0
+color = Color(0.537011, 0.537011, 0.537011, 1)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -18.0
+offset_top = -21.0
+offset_right = 22.0
+offset_bottom = -16.0
+scale = Vector2(0.99775, 0.9137)
+theme_override_styles/background = SubResource("StyleBoxFlat_b44se")
+theme_override_styles/fill = SubResource("StyleBoxLine_b44se")
+value = 20.0
+show_percentage = false
+script = ExtResource("3_b44se")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(2, 4)
+scale = Vector2(1.125, 1.125)
+shape = SubResource("CapsuleShape2D_p11y5")
+
+[node name="damage_position" type="Marker2D" parent="."]
+position = Vector2(2, -11)
+
+[node name="death_timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="mob_death" from="." to="ProgressBar" method="_on_mob_mob_death"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="death_timer" to="." method="_on_death_timer_timeout"]

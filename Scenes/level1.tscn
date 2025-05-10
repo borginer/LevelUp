@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqipalvciy3jm"]
+[gd_scene load_steps=10 format=3 uid="uid://bqipalvciy3jm"]
 
-[ext_resource type="Script" uid="uid://ccjbmcgq6xrjh" path="res://Scripts/game_manager.gd" id="1_y4dr7"]
+[ext_resource type="Script" uid="uid://2wtl6holhqto" path="res://Scripts/bg_manager.gd" id="1_didp7"]
 [ext_resource type="Texture2D" uid="uid://dcs4nh4ij2bvc" path="res://Assets/background.png" id="2_didp7"]
 [ext_resource type="PackedScene" uid="uid://cce5x77lw1sev" path="res://Scenes/spawner.tscn" id="3_2a60c"]
 [ext_resource type="PackedScene" uid="uid://c224va5gqg06x" path="res://Scenes/player.tscn" id="4_4iphx"]
 [ext_resource type="Script" uid="uid://dabi34k8cgywj" path="res://Scripts/exp_bar.gd" id="5_jgkgd"]
+[ext_resource type="Script" uid="uid://cx6s66pq08pyn" path="res://Scripts/timer.gd" id="6_didp7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wrm1d"]
 bg_color = Color(0, 0, 0, 0.541176)
@@ -12,40 +13,61 @@ bg_color = Color(0, 0, 0, 0.541176)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3dryh"]
 bg_color = Color(0.410182, 0.253711, 0.725643, 0.878431)
 
-[node name="Game" type="Node2D"]
+[sub_resource type="Theme" id="Theme_didp7"]
+default_base_scale = 0.35
+default_font_size = 100
 
-[node name="GameManager" type="Node2D" parent="."]
-process_mode = 3
-script = ExtResource("1_y4dr7")
+[node name="Level1" type="Node2D"]
+process_mode = 1
 
-[node name="background" type="Sprite2D" parent="."]
-position = Vector2(107, 191)
+[node name="bg_manager" type="Node2D" parent="."]
+script = ExtResource("1_didp7")
+
+[node name="background" type="Sprite2D" parent="bg_manager"]
 texture = ExtResource("2_didp7")
+region_enabled = true
+region_rect = Rect2(0, 0, 1843, 970)
 
 [node name="Spawner" parent="." instance=ExtResource("3_2a60c")]
 position = Vector2(418, 305)
 
 [node name="Player" parent="." instance=ExtResource("4_4iphx")]
-position = Vector2(128, 128)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(2.685, 2.685)
+position_smoothing_speed = 30.0
+
+[node name="exp_text" type="Label" parent="Player/Camera2D"]
+offset_left = -354.0
+offset_top = -193.0
+offset_right = -315.0
+offset_bottom = -170.0
+text = "23"
 
 [node name="exp_bar" type="ProgressBar" parent="Player/Camera2D"]
 offset_left = -358.0
-offset_top = -202.0
+offset_top = -201.0
 offset_right = 358.0
-offset_bottom = -192.0
+offset_bottom = -191.0
 theme_override_styles/background = SubResource("StyleBoxFlat_wrm1d")
 theme_override_styles/fill = SubResource("StyleBoxFlat_3dryh")
 value = 20.0
 show_percentage = false
 script = ExtResource("5_jgkgd")
 
-[node name="exp_text" type="Label" parent="Player/Camera2D/exp_bar"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 7.0
-offset_right = 44.0
-offset_bottom = 30.0
-text = "23"
+[node name="clock" type="Label" parent="Player/Camera2D"]
+z_index = 4
+offset_left = -37.0
+offset_top = -194.0
+offset_right = 219.0
+offset_bottom = -57.0
+scale = Vector2(0.293099, 0.273842)
+theme = SubResource("Theme_didp7")
+text = "01:21"
+horizontal_alignment = 1
+script = ExtResource("6_didp7")
+
+[node name="second" type="Timer" parent="Player/Camera2D/clock"]
+autostart = true
+
+[connection signal="timeout" from="Player/Camera2D/clock/second" to="Player/Camera2D/clock" method="_on_second_timeout"]

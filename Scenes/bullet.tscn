@@ -71,6 +71,8 @@ animations = [{
 radius = 12.4224
 
 [node name="Bullet" type="Node2D"]
+z_index = 4
+z_as_relative = false
 script = ExtResource("1_oduel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -95,4 +97,5 @@ wait_time = 0.4
 one_shot = true
 
 [connection signal="timeout" from="bullet_timeout" to="." method="_on_bullet_timeout_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="reverse_timer" to="." method="_on_reverse_timer_timeout"]

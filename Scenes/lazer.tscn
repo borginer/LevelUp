@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh7arrq3kvvj5"]
+
+[ext_resource type="Script" uid="uid://b3m5eowavby1h" path="res://Scripts/lazer.gd" id="1_nulvu"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_nulvu")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_top = -3.0
+offset_right = 100.0
+offset_bottom = 3.0
+pivot_offset = Vector2(0, 3)
+color = Color(0, 1, 1, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="time_to_live" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+autostart = true
+
+[node name="fadeout" type="Timer" parent="."]
+wait_time = 0.45
+
+[connection signal="timeout" from="time_to_live" to="." method="_on_time_to_live_timeout"]
+[connection signal="timeout" from="fadeout" to="." method="_on_fadeout_timeout"]

@@ -1,24 +1,32 @@
 extends Node2D
+class_name Bullet
 
 @onready var animations: AnimatedSprite2D = $AnimatedSprite2D
 @onready var bullet_timeout: Timer = $bullet_timeout
 @onready var reverse_timer: Timer = $reverse_timer
 
+var reverse = false
+
 var speed : int
 var dir : Vector2
 var initial_position: Vector2
-var reverse = false
 var damage
+var hits_left = 1
 
-func _ready() -> void:
+func create_bullet(_speed: int, _dir: Vector2, 
+		_damage: float, _initial_position: Vector2, _hits_left: int) -> void:
+	speed = _speed
+	dir = _dir
+	damage = _damage
+	initial_position = _initial_position
 	position = initial_position
+	hits_left = _hits_left
+	
+func _ready() -> void:
 	animations.play("default")
-	scale = Vector2(0.4, 0.4)
 	
 func _physics_process(delta: float) -> void:
 	position += speed * delta * dir 
-	if scale.x < 3:
-		scale += 3 * scale * delta
 		
 	if (position - initial_position).length() > 300:
 		queue_free()
@@ -29,3 +37,9 @@ func _on_bullet_timeout_timeout() -> void:
 
 func _on_reverse_timer_timeout() -> void:
 	reverse = true
+
+
+func _on_area_2d_area_entered(_area: Area2D) -> void:
+	hits_left -= 1
+	if hits_left == 0:
+		queue_free()
