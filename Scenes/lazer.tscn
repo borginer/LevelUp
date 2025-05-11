@@ -14,12 +14,12 @@ color = Color(0, 1, 1, 1)
 metadata/_edit_use_anchors_ = true
 
 [node name="time_to_live" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.1
 one_shot = true
 autostart = true
 
 [node name="fadeout" type="Timer" parent="."]
-wait_time = 0.45
+wait_time = 0.3
 
 [connection signal="timeout" from="time_to_live" to="." method="_on_time_to_live_timeout"]
 [connection signal="timeout" from="fadeout" to="." method="_on_fadeout_timeout"]

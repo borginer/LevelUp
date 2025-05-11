@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bafmatf85ri0h"]
+
+[ext_resource type="Script" uid="uid://n4bha8ukhknu" path="res://Scripts/lumi.gd" id="1_kvurn"]
+
+[node name="Lumi" type="Node2D"]
+script = ExtResource("1_kvurn")
+
+[node name="lumi_cd" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="lumi_delay_cd" type="Timer" parent="."]
+wait_time = 0.12
+one_shot = true
+
+[connection signal="timeout" from="lumi_cd" to="." method="_on_lumi_cd_timeout"]

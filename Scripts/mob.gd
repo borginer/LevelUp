@@ -108,3 +108,5 @@ func create_floating_damage(damage : float) -> void:
 func _on_death_timer_timeout() -> void:
 	call_deferred("queue_free")
 	
+static func is_alive(e1: Mob):
+	return not e1.is_dead

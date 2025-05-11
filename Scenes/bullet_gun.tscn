@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnuxdpjw64ae6"]
+
+[ext_resource type="Script" uid="uid://cvfhuq014c6p8" path="res://scripts/bullet_gun.gd" id="1_oyy33"]
+
+[node name="BulletGun" type="Node2D"]
+script = ExtResource("1_oyy33")
+
+[node name="bullet_cd" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="bullet_cd" to="." method="_on_bullet_cd_timeout"]

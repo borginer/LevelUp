@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://c224va5gqg06x"]
+[gd_scene load_steps=12 format=3 uid="uid://c224va5gqg06x"]
 
 [ext_resource type="Script" uid="uid://1wkcfple3xm3" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://bnrlo2xn68pvj" path="res://Assets/monsters.png" id="2_6t5aa"]
 [ext_resource type="Script" uid="uid://c1cekrdh887gd" path="res://Scripts/progress_bar.gd" id="3_6t5aa"]
+[ext_resource type="PackedScene" uid="uid://bafmatf85ri0h" path="res://Scenes/lumi.tscn" id="4_vgqql"]
+[ext_resource type="PackedScene" uid="uid://cnuxdpjw64ae6" path="res://Scenes/bullet_gun.tscn" id="5_fkybt"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cvnsp"]
 particles_animation = true
@@ -51,9 +53,6 @@ modulate = Color(0.996078, 0.92549, 0.894118, 1)
 material = SubResource("CanvasItemMaterial_cvnsp")
 sprite_frames = SubResource("SpriteFrames_2hs0m")
 
-[node name="shoot_origin" type="Marker2D" parent="."]
-position = Vector2(11, -10)
-
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -18.0
 offset_top = -21.0
@@ -72,25 +71,22 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CapsuleShape2D_hqtel")
 
-[node name="bullet_cd" type="Timer" parent="."]
-one_shot = true
-
 [node name="damage_taken_cd" type="Timer" parent="."]
 wait_time = 0.1
-one_shot = true
-
-[node name="lumi_cd" type="Timer" parent="."]
-wait_time = 2.0
 one_shot = true
 
 [node name="blink_cd" type="Timer" parent="."]
 wait_time = 5.0
 
-[node name="lumi_delay_cd" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
+[node name="Weapons" type="Marker2D" parent="."]
 
-[connection signal="timeout" from="bullet_cd" to="." method="_on_shoot_timer_timeout"]
+[node name="Lumi" parent="Weapons" instance=ExtResource("4_vgqql")]
+
+[node name="BulletGun" parent="Weapons" node_paths=PackedStringArray("shoot_origin") instance=ExtResource("5_fkybt")]
+shoot_origin = NodePath("shoot_origin")
+
+[node name="shoot_origin" type="Marker2D" parent="Weapons/BulletGun"]
+position = Vector2(11, -10)
+
 [connection signal="timeout" from="damage_taken_cd" to="." method="_on_damage_taken_cd_timeout"]
-[connection signal="timeout" from="lumi_cd" to="." method="_on_lumi_cd_timeout"]
 [connection signal="timeout" from="blink_cd" to="." method="_on_blink_cd_timeout"]
